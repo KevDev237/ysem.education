@@ -1,0 +1,79 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+.text-gradiant{
+    @apply  text-transparent bg-clip-text bg-gradient-to-tl from-orange-400 to-orange-800
+}
+
+/* bg-transparent bg-gradient-to-tl from-orange-400 to-orange-800 rounded-lg border-0 shadow-md transition-all ease-in cursor-pointer hover:shadow-xl  */
+
+.button-gradiant{
+    @apply text-white uppercase align-middle bg-transparent bg-gradient-to-tl from-orange-400 to-orange-800 rounded-lg border-0 shadow-md transition-all ease-in cursor-pointer 
+}
+.button-gradiant:hover{
+    @apply shadow-xl 
+}
+
+
+.custom-sub-nav-item{
+    @apply block px-4 py-2 w-full text-gray-800
+}
+.custom-sub-nav-item:hover{
+    @apply bg-gray-100
+}
+
+
+
+.custom-nav-item
+{
+    @apply inline-block px-4 py-2 mr-1 text-base font-normal text-slate-700 
+}
+
+@screen sm{
+    .custom-nav-item:hover
+    {
+        @apply bg-gray-100;
+    }
+}
+@screen lg{
+    .custom-nav-item:hover
+    {
+        @apply bg-transparent
+    }
+}
+
+
+.custom-input-text{
+    @apply px-3 py-2 w-full text-sm font-normal text-gray-700 bg-clip-padding bg-white rounded-lg border border-gray-300 border-solid shadow-sm outline-none transition-shadow
+}
+.custom-input-text:focus{
+    @apply border-orange-500 shadow-sm
+}
+
+/* all dashboard */
+
+.active-nav-dashboard-items{
+    @apply text-orange-600 underline uppercase font-bold text-lg
+}
+.nav-dashboard-items{
+    @apply grow bg-slate-300 shadow-xl my-4 mx-2 p-2 rounded
+}
+.nav-dashboard-items:hover{
+    @apply text-white bg-orange-300
+}
+.nav-dashboard-items:focus{
+    @apply outline-none
+}
+
+/* user dashboard */
+
+.truncate-address {
+    /* trunquer un text avec ... a la fin */
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

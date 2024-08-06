@@ -1,0 +1,87 @@
+
+
+version 1
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php?$1 [L,QSA]
+
+
+    Explications :
+
+    -RewriteEngine On : Active le moteur de réécriture.
+    -RewriteCond %{REQUEST_FILENAME} !-f : Vérifie si la requête n'est pas pour un fichier existant.
+    -RewriteCond %{REQUEST_FILENAME} !-d : Vérifie si la requête n'est pas pour un répertoire existant.
+    -RewriteRule ^(.*)$ index.php?$1 [L,QSA] :
+        ^(.*)$ : Capture toute l'URL après le domaine et la stocke dans $1.
+        index.php?$1 : Redirige la requête vers index.php en ajoutant la chaîne capturée comme paramètre de requête. Par exemple, si l'URL est /produit/123, elle devient index.php?/produit/123.
+        [L] : Indique que c'est la dernière règle à appliquer.
+        [QSA] : Ajoute les paramètres de requête existants à la nouvelle URL.
+
+meilleur version
+version 2
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ index.php [QSA,L]
+
+
+    Explications :
+
+    -RewriteEngine On : Active le moteur de réécriture.
+    -RewriteCond %{REQUEST_FILENAME} !-f : Vérifie si la requête n'est pas pour un fichier existant.
+    -RewriteCond %{REQUEST_FILENAME} !-d : Vérifie si la requête n'est pas pour un répertoire existant.
+    -RewriteRule ^ index.php [QSA,L] :
+        ^ : Capture toute l'URL après le domaine, mais ne la stocke pas dans une variable.
+        index.php : Redirige simplement vers index.php sans ajouter la chaîne capturée.
+        [L] : Indique que c'est la dernière règle à appliquer.
+        [QSA] : Ajoute les paramètres de requête existants à la nouvelle URL.
+
+
+
+Différences Principales
+    Transmission des arguments :
+        Version 1 : Transmet l'URL complète comme paramètre de requête à index.php (par exemple, /produit/123 devient index.php?/produit/123).
+        Version 2 : Ne transmet pas l'URL capturée. Toutes les requêtes sont redirigées vers index.php sans ajouter l'URL comme paramètre.
+    Utilisation des variables capturées :
+        Version 1 : Utilise une capture de groupe (.*) pour stocker l'URL et la transmettre.
+        Version 2 : Ne capture pas l'URL.
+    Complexité des règles :
+        Version 1 : Plus complexe car elle inclut la gestion des paramètres de requête dans l'URL.
+        Version 2 : Plus simple et directe.
+    Utilisation
+        Version 1 est utile si tu veux que index.php traite l'URL complète et utilise l'URL capturée pour déterminer le contenu à afficher.
+        Version 2 est plus simple et est utilisée lorsque index.php peut déterminer le contenu à afficher sans avoir besoin de l'URL complète dans les paramètres.
+
+
+
+
+
+Adaptation des versions de réécriture pour ton code
+Version 1
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php?$1 [L,QSA]
+Avec cette configuration, l'URL complète est ajoutée en tant que paramètre de requête à index.php. Cependant, dans ton index.php, tu utilises $_SERVER['REQUEST_URI'] pour récupérer l'URL. Cette méthode ne dépend pas des paramètres de requête, donc cette règle de réécriture peut être un peu redondante. Néanmoins, elle ne causera pas de problème tant que tu n'utilises pas explicitement les paramètres de requête pour autre chose.
+
+Version 2
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ index.php [QSA,L]
+Cette configuration redirige simplement toutes les requêtes vers index.php sans ajouter l'URL comme paramètre de requête. Puisque ton code PHP utilise $_SERVER['REQUEST_URI'] pour récupérer l'URL, cette méthode est suffisante et peut-être plus propre.
+
+Choix recommandé pour ton cas
+    Version 2 est recommandée car elle est plus simple et directe. Ton code PHP extrait déjà l'URL de $_SERVER['REQUEST_URI'], et n'a pas besoin de l'URL dans les paramètres de requête. De plus, cette approche minimise la complexité et réduit les risques de conflits avec d'autres paramètres de requête.
+
+Mise en œuvre finale
+Ton fichier .htaccess avec la version 2 :
+
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ index.php [QSA,L]
+Ton index.php fonctionne correctement avec cette configuration, en utilisant $_SERVER['REQUEST_URI'] pour extraire et traiter l'URL.
+
+Cela devrait te permettre de router les requêtes efficacement tout en gardant ton code propre et simple.
